@@ -1,0 +1,7 @@
+1. perl -ne 'BEGIN{my $res=0} $res+=length($_); END{print $res}'
+perl -na -F// -e '$n+=@F END{print $n}'
+
+2. perl -ne 'BEGIN{my $res=0} $res+=split(); END{print $res}'
+perl -nale '$n+=@F; END{print $n}' toto
+
+3. perl -ne 'END{print $.}'

@@ -1,0 +1,51 @@
+1 . perl -ple ''
+
+       -p   causes Perl to assume the following loop around your program, which makes it iterate over filename
+            arguments somewhat like sed:
+
+              LINE:
+                while (<>) {
+                    ...             # your program goes here
+                } continue {
+                    print or die "-p destination: $!\n";
+                }
+
+            If a file named by an argument cannot be opened for some reason, Perl warns you about it, and moves on
+            to the next file.  Note that the lines are printed automatically.  An error occurring during printing is
+            treated as fatal.  To suppress printing use the -n switch.  A -p overrides a -n switch.
+
+            "BEGIN" and "END" blocks may be used to capture control before or after the implicit loop, just as in
+            awk.
+
+
+2 .  perl -ple 'print $., " " '
+correction     perl -nwle 'print "$. $_"'
+
+
+3 . perl -pale 'print scalar(@F), " "'
+scalar(@F) == @F + 0 : ............WELP WHAT THE FUCK HOW THE FUCK
+
+4. perl -lne 'END { print $. }'
+
+   perl -lne '} print $.; {'
+
+   perl -nle '$n++;END{print $n}'
+
+5. perl -nle 'if (length > 80) {$n++}; END{print $n}'
+             '$n++ if (length($_) > 80), END{print $n}'
+
+
+6. perl -F':' -nale '$n++ if ($F[0]==$F[3]); END { print $n }'
+
+-F :
+
+7.
+Un entier par ligne :
+perl -nle ' BEGIN{my $res=0;} $res=$res+$_; END{print $res;}'
+
+Plusieurs entiers par ligne :
+perl -nle ' BEGIN{my $res=0;} foreach my $i (split){ $res=$res+$i }; END{print $res;}'
+
+v2:
+perl -nale '$somme+=$_ foreach @F; END{print $somme}'
+
